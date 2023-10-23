@@ -95,7 +95,6 @@ class AnalyticsService implements IAnalyticsService {
                 GROUP BY [Main Unit], [Tag Class]
                 ORDER BY [Main Unit], [Tag Class]`
               );
-              console.log(mainUnitData)
             return {
                 statisticsOverallData: {
                     dataTag: dataTag.recordset?.length ? dataTag.recordset[0][''] : 0,

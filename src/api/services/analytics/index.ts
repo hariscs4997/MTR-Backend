@@ -88,7 +88,14 @@ class AnalyticsService implements IAnalyticsService {
                 .request()
                 .query(
                     `Select count(*) from dbo.data_model where [VALIDATION STATUS] is NULL`
-                );
+            );
+            const mainUnitData = await pool.request().query(
+                `SELECT [Main Unit], [Tag Class], COUNT(*)
+                FROM [dbo].[data_Tag]
+                GROUP BY [Main Unit], [Tag Class]
+                ORDER BY [Main Unit], [Tag Class]`
+              );
+              console.log(mainUnitData)
             return {
                 statisticsOverallData: {
                     dataTag: dataTag.recordset?.length ? dataTag.recordset[0][''] : 0,
@@ -108,6 +115,9 @@ class AnalyticsService implements IAnalyticsService {
                     dataModelValidationValidStatus: dataModelValidationValidStatus.recordset?.length ? dataAssetValidationValidStatus.recordset[0][''] : 0,
                     dataModelValidationErrorStatus: dataModelValidationErrorStatus.recordset?.length ? dataAssetValidationErrorStatus.recordset[0][''] : 0,
                     dataModelValidationUnvalidStatus: dataModelValidationUnvalidStatus.recordset?.length ? dataAssetValidationUnvalidStatus.recordset[0][''] : 0,
+                },
+                mainUnitData:{ 
+                    data: mainUnitData.recordset?.length ? mainUnitData.recordset : []
                 }
             }
         } catch (error) {

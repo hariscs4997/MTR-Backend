@@ -1,5 +1,5 @@
 import { Request, Response, Application } from 'express';
-import v1 from './v1';
+import api from './api';
 export class Routes {
 
   public routes(app: Application): void {
@@ -7,6 +7,6 @@ export class Routes {
       .get((req: Request, res: Response) => {
         res.status(200).send('Healthy!!!');
       });
-    app.use('/v1', v1);
+    app.use('/api', api);
   }
 }

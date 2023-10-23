@@ -1,5 +1,5 @@
 {
-  "name": "typescipt-express-boiler",
+  "name": "mtr-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "@types/mssql": "^9.1.2",
+    "express": "^4.17.1",
+    "msnodesqlv8": "^4.1.1",
+    "mssql": "^10.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.2"

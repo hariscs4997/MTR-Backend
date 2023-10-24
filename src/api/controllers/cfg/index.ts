@@ -10,4 +10,12 @@ export class CfgController {
             throw e;
         }
     }
+    public static async getMenuData(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await CfgService.getMenuData();
+            res.send(data).status(200);
+        } catch (e) {
+            throw e;
+        }
+    }
 }

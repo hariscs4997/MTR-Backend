@@ -4,7 +4,8 @@ import sql from "mssql/msnodesqlv8";
 const sqlService: any = sql
 
 interface ICfgService {
-    getSidebarData(): any
+    getSidebarData(): any;
+    getMenuData(): any
 }
 
 class CfgService implements ICfgService {
@@ -28,6 +29,21 @@ class CfgService implements ICfgService {
             ) a
             order by [DisplayName]`
                 // SELECT [ViewName] AS id,[DisplayName] AS title, [Icon] AS icon, [ViewName] AS navLink  FROM [dbo].[cfg_Views] order by [DisplayName] asc
+            );
+            return products.recordset
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    public async getMenuData() {
+        try {
+            const pool = await sqlService.connect(config);
+            const products = await pool.request().query(
+                `Select l1.classname, l2.classname, l3.classname
+                FROM [dbo].[cfg_ClassLevel1] l1
+                left join [dbo].[cfg_ClassLevel2] l2 on l1.id = l2.parentid
+                  left join [dbo].[cfg_ClassLevel3] l3 on l2.id = l3.parentid
+                `
             );
             return products.recordset
         } catch (error) {

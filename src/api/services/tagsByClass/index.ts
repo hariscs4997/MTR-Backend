@@ -12,13 +12,13 @@ interface ITagsByClassService {
 class TagsByClassService implements ITagsByClassService {
     public async getTagClassData(item: string) {
         try {
-            let pool = await sqlService.connect(config);
-            let data = await pool.request().query(
+            const pool = await sqlService.connect(config);
+            const data = await pool.request().query(
                 `SELECT [ViewName]
           FROM [dbo].[cfg_ClassLevel1]
           Where [ClassName] = '${item}'`
             );
-            let tableData = await pool
+            const tableData = await pool
                 .request()
                 .query(
                     `select * from ${data.recordsets[0][0].ViewName} where [Tag Class] = '${item}'`
@@ -31,13 +31,13 @@ class TagsByClassService implements ITagsByClassService {
     }
     public async getTagSubClassData(item: string) {
         try {
-            let pool = await sqlService.connect(config);
-            let data = await pool.request().query(
+            const pool = await sqlService.connect(config);
+            const data = await pool.request().query(
                 `SELECT [ViewName]
           FROM [dbo].[cfg_ClassLevel2]
           Where [ClassName] = '${item}'`
             );
-            let tableData = await pool
+            const tableData = await pool
                 .request()
                 .query(
                     `select * from ${data.recordsets[0][0].ViewName} where [Tag SubClass] = '${item}'`
@@ -49,13 +49,13 @@ class TagsByClassService implements ITagsByClassService {
     }
     public async getTagLastClassData(item: string) {
         try {
-            let pool = await sqlService.connect(config);
-            let data = await pool.request().query(
+            const pool = await sqlService.connect(config);
+            const data = await pool.request().query(
                 `SELECT [ViewName]
           FROM [dbo].[cfg_ClassLevel3]
           Where [ClassName] = '${item}'`
             );
-            let tableData = await pool
+            const tableData = await pool
                 .request()
                 .query(
                     `select * from ${data.recordsets[0][0].ViewName} where [Tag Type] = '${item}'`

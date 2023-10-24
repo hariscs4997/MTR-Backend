@@ -4,11 +4,13 @@ import analytics from './analytics';
 import dates from './dates'
 import reports from './reports';
 import tagsByClass from './tagsByClass';
+import tagsQuickFind from './tagsQuickFind';
 const router = express.Router();
 router.use('/cfg', cfg);
 router.use('/analytics', analytics);
 router.use("/dates", dates)
 router.use("/reports", reports)
-router.use("/tags-by-class",tagsByClass)
+router.use("/tags-by-class", tagsByClass)
+router.use("/tags-quick-find", tagsQuickFind)
 
 export default router;

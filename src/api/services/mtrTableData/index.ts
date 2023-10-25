@@ -65,7 +65,7 @@ class MTRTableDataService implements IMTRTableDataService {
         }
     }
 }
-const getViewName = async (displayName:string) =>{
+const getViewName = async (displayName: string) => {
     try {
         const pool = await sqlService.connect(config);
         const ViewName = await pool.request().query(`
@@ -73,9 +73,9 @@ const getViewName = async (displayName:string) =>{
           FROM [dbo].[cfg_Views]
           WHERE DisplayName = '${displayName}'`);
         return ViewName.recordsets[0][0].ViewName;
-      } catch (error) {
+    } catch (error) {
         console.log(error);
-      }
+    }
 }
 
 export default new MTRTableDataService();

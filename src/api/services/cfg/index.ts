@@ -5,7 +5,7 @@ const sqlService: any = sql
 
 interface ICfgService {
     getSidebarData(): any;
-    getMenuData(): any
+    getClassesData(): any
 }
 
 class CfgService implements ICfgService {
@@ -35,7 +35,7 @@ class CfgService implements ICfgService {
             console.log(error);
         }
     }
-    public async getMenuData() {
+    public async getClassesData() {
         try {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(

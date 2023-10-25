@@ -10,9 +10,9 @@ export class CfgController {
             throw e;
         }
     }
-    public static async getMenuData(req: Request, res: Response, next: NextFunction) {
+    public static async getClassesData(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await CfgService.getMenuData();
+            const data = await CfgService.getClassesData();
             res.send(data).status(200);
         } catch (e) {
             throw e;

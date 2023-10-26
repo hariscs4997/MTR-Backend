@@ -28,7 +28,7 @@ class ReportsService implements IReportsService {
     }
     public async getReportLink(query: string) {
         try {
-            const data = await this.getData(query)
+            const data = await getData(query)
             return data
         } catch (error) {
             console.log(error);
@@ -36,20 +36,20 @@ class ReportsService implements IReportsService {
     }
     public async getReportSummary(query: string) {
         try {
-            const data = await this.getData(query)
+            const data = await getData(query)
             return data
         } catch (error) {
             console.log(error);
         }
     }
-    getData = async (query: string) => {
-        try {
-            const pool = await sqlService.connect(config);
-            const data = await pool.request().query(`${query}`);
-            return data.recordsets[0];
-        } catch (error) {
-            console.log(error);
-        }
+}
+const getData = async (query: string) => {
+    try {
+        const pool = await sqlService.connect(config);
+        const data = await pool.request().query(`${query}`);
+        return data.recordsets[0];
+    } catch (error) {
+        console.log(error);
     }
 }
 

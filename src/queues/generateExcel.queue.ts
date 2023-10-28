@@ -20,7 +20,7 @@ const generateExcel = async (data: any) => {
     })
     return job.id
 }
-async function getJobStatus(jobId: string) {
+async function getExcelJobStatus(jobId: string) {
     try {
         const job = await generateExcelQueue.getJob(jobId);
         if (!job) {
@@ -38,5 +38,5 @@ async function getJobStatus(jobId: string) {
 
 export {
     generateExcel,
-    getJobStatus
+    getExcelJobStatus
 }

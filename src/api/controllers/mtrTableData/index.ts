@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import MTRTabelDataService from '../../services/mtrTableData';
-import { generateExcel, getJobStatus } from '../../../queues/generateExcel.queue';
+import { generateExcel, getExcelJobStatus } from '../../../queues/generateExcel.queue';
+import { generateCsv, getCsvJobStatus } from '../../../queues/generateCsv.queue';
 export class MTRTabelDataController {
     public static async getTableData(req: Request, res: Response, next: NextFunction) {
         try {
@@ -18,9 +19,25 @@ export class MTRTabelDataController {
             throw e;
         }
     }
-    public static async getJobStatus(req: Request, res: Response, next: NextFunction) {
+    public static async generateCsv(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await getJobStatus(req.body.id)
+            const id = await generateCsv(req.body)
+            res.send({ status: "ok", id }).status(200)
+        } catch (e) {
+            throw e;
+        }
+    }
+    public static async getExcelJobStatus(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await getExcelJobStatus(req.body.id)
+            res.send(data ).status(200)
+        } catch (e) {
+            throw e;
+        }
+    }
+    public static async getCsvJobStatus(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await getCsvJobStatus(req.body.id)
             res.send(data ).status(200)
         } catch (e) {
             throw e;

@@ -2,6 +2,7 @@ import { Job } from "bull";
 import ExcelJS from 'exceljs';
 import { config } from "../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
+import fs from "fs"
 
 const sqlService: any = sql
 
@@ -10,15 +11,16 @@ const generateExcelProcess = async (job: Job) => {
     const { title, fileName } = job.data;
     const viewName = await getViewName(title);
      let totalRecords:any = await getTotalRecords(viewName);
-     console.log(totalRecords)
     //if records are more than a million return.
     if (totalRecords > 1000000) return false;
     //create a workbook
     const workbook = new ExcelJS.Workbook();
+    if (!fs.existsSync(`public/excel-${job.id}`)) {
+        fs.mkdirSync(`public/excel-${job.id}`);
+    }
     //create a worksheet
     const worksheet = workbook.addWorksheet("Sheet");
     const result = await getAllData(viewName)
-    console.log(result)
     // let result:any = []
     //     let itemCount = Math.floor(totalRecords/100000) + 1
     //     for(var i = 1;i<itemCount;i++){
@@ -75,7 +77,7 @@ const generateExcelProcess = async (job: Job) => {
         bold: true,
     };
     //wrtie file
-    await workbook.xlsx.writeFile(`public/${fileName}.xlsx`);
+    await workbook.xlsx.writeFile(`public/excel-${job.id}/${fileName}.xlsx`);
     return `${fileName}.xlsx`
 }
 const getViewName = async (title: string) => {
@@ -95,7 +97,7 @@ const getTotalRecords = async (viewName:string) => {
         const pool = await sqlService.connect(config);
         const totalRecords = await pool
             .request()
-            .query(`SELECT COUNT([Tag No]) FROM [dbo].[${viewName}]`);
+            .query(`SELECT COUNT(*) FROM [dbo].[${viewName}]`);
         return Object.values(totalRecords.recordset[0])[0];
     } catch (error) {
         console.error(error);

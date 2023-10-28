@@ -9,17 +9,25 @@ const generateExcelProcess = async (job: Job) => {
     // console.log(job.data)
     const { title, fileName } = job.data;
     const viewName = await getViewName(title);
-    let totalRecords: any = await getTotalRecords(viewName);
-    // console.log("totalRecords", totalRecords);
-    const start = 0;
+     let totalRecords:any = await getTotalRecords(viewName);
+     console.log(totalRecords)
+    //if records are more than a million return.
+    if (totalRecords > 1000000) return false;
     //create a workbook
     const workbook = new ExcelJS.Workbook();
     //create a worksheet
     const worksheet = workbook.addWorksheet("Sheet");
-    //if records are more than a million return.
-    if (totalRecords > 1000000) return;
-
-    const result = await getAllData(viewName, start, totalRecords);
+    const result = await getAllData(viewName)
+    console.log(result)
+    // let result:any = []
+    //     let itemCount = Math.floor(totalRecords/100000) + 1
+    //     for(var i = 1;i<itemCount;i++){
+    //     const rowsToSkip = (i - 1) * 100000;
+    //     const data = await getAllData(rowsToSkip,100000);
+    //     console.log(data)
+    //     result = result.concat(data)
+    //     }
+    // console.log(result)
     //prepare columns
     const columns = Object.keys(result[0]).map((col) => {
         return {
@@ -82,7 +90,7 @@ const getViewName = async (title: string) => {
         console.log(error);
     }
 }
-const getTotalRecords = async (viewName: string) => {
+const getTotalRecords = async (viewName:string) => {
     try {
         const pool = await sqlService.connect(config);
         const totalRecords = await pool
@@ -93,14 +101,11 @@ const getTotalRecords = async (viewName: string) => {
         console.error(error);
     }
 }
-const getAllData = async (viewName: string, start: number, end: number) => {
+const getAllData = async (viewName:string) => {
     try {
         const pool = await sqlService.connect(config);
         const products = await pool.request().query(
-            `SELECT *
-          FROM [dbo].[${viewName}] ORDER BY [Tag No]  
-          OFFSET ${start} ROWS
-          FETCH NEXT ${end} ROWS ONLY`
+            `SELECT * FROM [dbo].[${viewName}]`
         );
 
         return products.recordsets[0];

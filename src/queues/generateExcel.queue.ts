@@ -7,13 +7,36 @@ const generateExcelQueue = new Bull("generateExcel", {
     },
 })
 
+
 generateExcelQueue.process(generateExcelProcess)
-const generateExcel = (data: any) => {
-    generateExcelQueue.add(data, {
-        attempts:2
+    generateExcelQueue.on('completed', (job, result) => {
+        console.log(result)
+        job.finished();
     })
+
+const generateExcel = async (data: any) => {
+    const job = await generateExcelQueue.add(data, {
+        attempts: 2
+    })
+    return job.id
+}
+async function getJobStatus(jobId: string) {
+    try {
+        const job = await generateExcelQueue.getJob(jobId);
+        if (!job) {
+            return 'Job not found';
+        }
+
+        const state = await job.getState();
+        console.log(job)
+        return state;
+    } catch (error) {
+        console.error('Error getting job status:', error);
+        throw error; // Handle or propagate the error as needed
+    }
 }
 
 export {
-    generateExcel
+    generateExcel,
+    getJobStatus
 }

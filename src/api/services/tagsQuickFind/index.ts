@@ -12,12 +12,38 @@ interface ITagsQuickFind {
     tagType: string
 }
 interface ITagsQuickFindService {
+    getTagsQuickTagClassData(): any
     getTagsQuickFindMainUnitData(): any
     getTagsQuickFindProcessUnitData(id: number): any;
     getTagsQuickFindTableData(iTagsQuickFind: ITagsQuickFind): any
 }
 
 class TagsQuickFindService implements ITagsQuickFindService {
+    public async getTagsQuickTagClassData() {
+        try {
+            const pool = await sqlService.connect(config);
+            const data = await pool
+                .request()
+                .query(`Select ClassName,ID from [cfg_ClassLevel1]`);
+            return data.recordsets[0];
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    public async getTagsQuickTagSubClassData(tagClass: string) {
+        try {
+            const pool = await sqlService.connect(config);
+            const data = await pool
+                .request()
+                .query(
+                    `select [ClassName], ID FROM [cfg_ClassLevel2] where [ParentID] = '${tagClass}'`
+                );
+            return data.recordsets[0];
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     public async getTagsQuickFindMainUnitData() {
         try {
             const pool = await sqlService.connect(config);

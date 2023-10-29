@@ -2,6 +2,22 @@ import { Request, Response, NextFunction } from 'express';
 import TagsQuickFindService from '../../services/tagsQuickFind';
 
 export class TagsQuickFindController {
+    public static async getTagsQuickTagClassData(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await TagsQuickFindService.getTagsQuickTagClassData()
+            res.send(data).status(200);
+        } catch (e) {
+            throw e;
+        }
+    }
+    public static async getTagsQuickTagSubClassData(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await TagsQuickFindService.getTagsQuickTagSubClassData(req.body.id)
+            res.send(data).status(200);
+        } catch (e) {
+            throw e;
+        }
+    }
     public static async getTagsQuickFindMainUnitData(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await TagsQuickFindService.getTagsQuickFindMainUnitData()

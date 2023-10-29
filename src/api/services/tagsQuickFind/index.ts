@@ -43,6 +43,19 @@ class TagsQuickFindService implements ITagsQuickFindService {
             console.log(error);
         }
     }
+    public async getTagsQuickTagTypeData(tagSubClass: string) {
+        try {
+            const pool = await sqlService.connect(config);
+            const data = await pool
+                .request()
+                .query(
+                    `select [ClassName],ID FROM [cfg_ClassLevel3] where [ParentID] ='${tagSubClass}'`
+                );
+            return data.recordsets[0];
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     public async getTagsQuickFindMainUnitData() {
         try {

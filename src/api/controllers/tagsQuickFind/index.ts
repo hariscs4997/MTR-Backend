@@ -18,6 +18,14 @@ export class TagsQuickFindController {
             throw e;
         }
     }
+    public static async getTagsQuickTagTypeData(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await TagsQuickFindService.getTagsQuickTagTypeData(req.body.id)
+            res.send(data).status(200);
+        } catch (e) {
+            throw e;
+        }
+    }
     public static async getTagsQuickFindMainUnitData(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await TagsQuickFindService.getTagsQuickFindMainUnitData()

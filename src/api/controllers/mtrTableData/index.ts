@@ -14,7 +14,7 @@ export class MTRTabelDataController {
     public static async generateExcel(req: Request, res: Response, next: NextFunction) {
         try {
             const id = await generateExcel(req.body)
-            res.send({ status: "ok", id }).status(200)
+            res.send({ status: "ok", id, pathname:`/excel-${id}/${req.body.fileName}.zip` }).status(200)
         } catch (e) {
             throw e;
         }
@@ -22,7 +22,7 @@ export class MTRTabelDataController {
     public static async generateCsv(req: Request, res: Response, next: NextFunction) {
         try {
             const id = await generateCsv(req.body)
-            res.send({ status: "ok", id }).status(200)
+            res.send({ status: "ok", id, pathname:`/csv-${id}/${req.body.fileName}.zip`}).status(200)
         } catch (e) {
             throw e;
         }

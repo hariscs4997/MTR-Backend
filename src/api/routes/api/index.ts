@@ -7,7 +7,7 @@ import tagsByClass from './tagsByClass';
 import tagsQuickFind from './tagsQuickFind';
 import tagLinks from './tagLinks';
 import mtrTableData from './mtrTableData';
-
+import admin from "./admin"
 const router = express.Router();
 router.use('/cfg', cfg);
 router.use('/analytics', analytics);
@@ -17,5 +17,5 @@ router.use("/tags-by-class", tagsByClass)
 router.use("/tags-quick-find", tagsQuickFind)
 router.use("/tag-links", tagLinks)
 router.use("/mtr", mtrTableData)
-
+router.use('/admin', admin)
 export default router;

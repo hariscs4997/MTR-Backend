@@ -4,7 +4,7 @@ import sql from "mssql/msnodesqlv8";
 const sqlService: any = sql
 
 interface IAnalyticsService {
-    getStatisticsOverallandValidationData(): any,
+    getStatisticsOverallandValidationData(): any;
 }
 
 class AnalyticsService implements IAnalyticsService {

@@ -29,7 +29,7 @@ export class ManageClassificationController {
     }
     public static async deleteClassificationData(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await ManageClassificationService.deleteClassificationData(req.body.id);
+            const data = await ManageClassificationService.deleteClassificationData(parseInt(req.params.id));
             console.log(data)
             res.send(data).status(200);
         } catch (e) {

@@ -28,11 +28,12 @@ class ManageClassificationService implements IManageClassificationService {
         }
     }
     public async addClassificationData(iManageClassificationItem: IManageClassificationItem) {
+        console.log(iManageClassificationItem)
         try {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
                 `INSERT INTO cfg_ClassificationLevels (ClassName, ViewName, ParentID, Icon, TageTypeCode)
-                VALUES('${iManageClassificationItem.className}', 'data_AllTags', '${iManageClassificationItem.parentID}', null, null);
+                VALUES('${iManageClassificationItem.className}', 'data_AllTags', ${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null} , null, null);
                 `
             );
             return {
@@ -52,7 +53,7 @@ class ManageClassificationService implements IManageClassificationService {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
                 `UPDATE cfg_ClassificationLevels
-                SET ClassName='${iManageClassificationItem.className}', ViewName='data_AllTags', ParentID='${iManageClassificationItem.parentID}', Icon=null, TageTypeCode=null
+                SET ClassName='${iManageClassificationItem.className}', ViewName='data_AllTags', ParentID=${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null}, Icon=null, TageTypeCode=null
                 WHERE ID=${id};
                 `
             );
@@ -72,8 +73,17 @@ class ManageClassificationService implements IManageClassificationService {
         try {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
-                `DELETE FROM MTR_DEV.dbo.cfg_ClassificationLevels
-                WHERE ID=${id};
+                `WITH RecursiveCTE AS (
+                    SELECT ID
+                    FROM cfg_ClassificationLevels
+                    WHERE ID = ${id}
+                    UNION ALL
+                    SELECT t.ID
+                    FROM cfg_ClassificationLevels t
+                    INNER JOIN RecursiveCTE cte ON cte.ID = t.ParentID
+                  )
+                  DELETE FROM cfg_ClassificationLevels
+                  WHERE ID IN (SELECT ID FROM RecursiveCTE)
                 `
             );
             return "Deleted Successfully"

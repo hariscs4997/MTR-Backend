@@ -10,6 +10,14 @@ export class ManageClassificationController {
             throw e;
         }
     }
+    public static async getAllViewNamesData(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await ManageClassificationService.getAllViewNamesData();
+            res.send(data).status(200);
+        } catch (e) {
+            throw e;
+        }
+    }
     public static async addClassificationData(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await ManageClassificationService.addClassificationData(req.body);
@@ -20,7 +28,7 @@ export class ManageClassificationController {
     }
     public static async updateClassificationData(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await ManageClassificationService.updateClassificationData({ className: req.body.className, parentID: req.body.parentID }, req.body.id);
+            const data = await ManageClassificationService.updateClassificationData({ className: req.body.className, parentID: req.body.parentID, viewName:req.body.viewName }, req.body.id);
             console.log(data)
             res.send(data).status(200);
         } catch (e) {

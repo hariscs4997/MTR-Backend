@@ -28,6 +28,18 @@ class ManageClassificationService implements IManageClassificationService {
             console.log(e)
         }
     }
+    public async getAllViewNamesData() {
+        try {
+            const pool = await sqlService.connect(config);
+            const products = await pool.request().query(
+                `Select * FROM [cfg_Views]`
+            );
+            return products.recordsets[0].map((item:any)  => ({ViewName:item.ViewName, DisplayName: item.DisplayName}));
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
     public async addClassificationData(iManageClassificationItem: IManageClassificationItem) {
         console.log(iManageClassificationItem)
         try {

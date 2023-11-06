@@ -39,11 +39,7 @@ class CfgService implements ICfgService {
         try {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
-                `Select l1.classname, l2.classname, l3.classname
-                FROM [dbo].[cfg_ClassLevel1] l1
-                left join [dbo].[cfg_ClassLevel2] l2 on l1.id = l2.parentid
-                  left join [dbo].[cfg_ClassLevel3] l3 on l2.id = l3.parentid
-                `
+                `Select * FROM [cfg_ClassificationLevels]`
             );
             return products.recordset
         } catch (error) {

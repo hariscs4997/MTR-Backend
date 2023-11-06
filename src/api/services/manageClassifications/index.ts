@@ -10,6 +10,7 @@ interface IManageClassificationItem {
 }
 interface IManageClassificationService {
     getAllClassificationData(): any;
+    getAllViewNamesData():any;
     addClassificationData(iManageClassificationItem: IManageClassificationItem): any;
     updateClassificationData(iManageClassificationItem: IManageClassificationItem, id: number): any;
     deleteClassificationData(id: number): any

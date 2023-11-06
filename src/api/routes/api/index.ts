@@ -8,6 +8,7 @@ import tagsQuickFind from './tagsQuickFind';
 import tagLinks from './tagLinks';
 import mtrTableData from './mtrTableData';
 import manageClassification from "./manageClassification"
+import managePBS from './managePBS';
 const router = express.Router();
 router.use('/cfg', cfg);
 router.use('/analytics', analytics);
@@ -18,4 +19,5 @@ router.use("/tags-quick-find", tagsQuickFind)
 router.use("/tag-links", tagLinks)
 router.use("/mtr", mtrTableData)
 router.use('/manage-classification', manageClassification)
+router.use('/manage-pbs',managePBS)
 export default router;

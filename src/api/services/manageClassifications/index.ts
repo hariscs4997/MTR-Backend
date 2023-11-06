@@ -6,6 +6,7 @@ const sqlService: any = sql
 interface IManageClassificationItem {
     className: string,
     parentID: number,
+    viewName:string
 }
 interface IManageClassificationService {
     getAllClassificationData(): any;
@@ -33,7 +34,7 @@ class ManageClassificationService implements IManageClassificationService {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
                 `INSERT INTO cfg_ClassificationLevels (ClassName, ViewName, ParentID, Icon, TageTypeCode)
-                VALUES('${iManageClassificationItem.className}', 'data_AllTags', ${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null} , null, null);
+                VALUES('${iManageClassificationItem.className}', ${iManageClassificationItem.viewName}, ${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null} , null, null);
                 `
             );
             return {
@@ -53,7 +54,7 @@ class ManageClassificationService implements IManageClassificationService {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
                 `UPDATE cfg_ClassificationLevels
-                SET ClassName='${iManageClassificationItem.className}', ViewName='data_AllTags', ParentID=${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null}, Icon=null, TageTypeCode=null
+                SET ClassName='${iManageClassificationItem.className}', ViewName='${iManageClassificationItem.viewName}', ParentID=${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null}, Icon=null, TageTypeCode=null
                 WHERE ID=${id};
                 `
             );

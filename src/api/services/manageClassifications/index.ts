@@ -47,7 +47,7 @@ class ManageClassificationService implements IManageClassificationService {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
                 `INSERT INTO cfg_ClassificationLevels (ClassName, ViewName, ParentID, Icon, TageTypeCode)
-                VALUES('${iManageClassificationItem.className}', ${iManageClassificationItem.viewName}, ${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null} , null, null);
+                VALUES('${iManageClassificationItem.className}', '${iManageClassificationItem.viewName}', ${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null} , null, null);
                 `
             );
             return {

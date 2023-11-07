@@ -52,7 +52,7 @@ class ManageClassificationService implements IManageClassificationService {
             );
             return {
                 ClassName: iManageClassificationItem.className,
-                ViewName: "data_AllTags",
+                ViewName: iManageClassificationItem.viewName,
                 ParentID: iManageClassificationItem.parentID,
                 Icon: null,
                 TageTypeCode: null
@@ -73,7 +73,7 @@ class ManageClassificationService implements IManageClassificationService {
             );
             return {
                 ClassName: iManageClassificationItem.className,
-                ViewName: "data_AllTags",
+                ViewName: iManageClassificationItem.viewName,
                 ParentID: iManageClassificationItem.parentID,
                 Icon: null,
                 TageTypeCode: null

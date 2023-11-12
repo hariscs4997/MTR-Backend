@@ -4,13 +4,13 @@ import sql from "mssql/msnodesqlv8";
 const sqlService: any = sql
 
 interface ITagsByClassService {
-    getTagClassData(item: string): any
+    getTagClassData(item: string, viewName:string): any
     getTagSubClassData(item: string): any
     getTagLastClassData(item: string): any
 }
 
 class TagsByClassService implements ITagsByClassService {
-    public async getTagClassData(item: string) {
+    public async getTagClassData(item: string, viewName:string) {
         try {
             const pool = await sqlService.connect(config);
             const data = await pool.request().query(
@@ -21,7 +21,7 @@ class TagsByClassService implements ITagsByClassService {
             const tableData = await pool
                 .request()
                 .query(
-                    `select * from ${data.recordsets[0][0].ViewName} where [Tag Class] = '${item}'`
+                    `select * from ${viewName} where [Tag Class] = '${item}'`
                 );
 
             return tableData.recordsets[0];

@@ -4,7 +4,7 @@ import TagsByClassService from '../../services/tagsByClass';
 export class TagsByClassController {
     public static async getTagClassData(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await TagsByClassService.getTagClassData(req.body.name)
+            const data = await TagsByClassService.getTagClassData(req.body.name, req.body.viewName)
             res.send(data).status(200);
         } catch (e) {
             throw e;

@@ -13,11 +13,6 @@ class TagsByClassService implements ITagsByClassService {
     public async getTagClassData(item: string, viewName:string) {
         try {
             const pool = await sqlService.connect(config);
-            const data = await pool.request().query(
-                `SELECT [ViewName]
-          FROM [dbo].[cfg_ClassLevel1]
-          Where [ClassName] = '${item}'`
-            );
             const tableData = await pool
                 .request()
                 .query(

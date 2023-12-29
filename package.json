@@ -22,17 +22,18 @@
     "csv-writer": "^1.6.0",
     "exceljs": "^4.4.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.4.3",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "msnodesqlv8": "^4.1.1",
     "mssql": "^10.0.1",
     "multer": "^1.4.5-lts.1",
-    "save-as": "^0.1.8"
+    "node-gyp": "^10.0.1",
+    "save-as": "^0.1.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@types/express": "4.17.8",
-    "@types/express-fileupload": "^1.4.4",
     "@types/multer": "^1.4.11"
   }
 }

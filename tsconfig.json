@@ -14,7 +14,8 @@
     "resolveJsonModule": true                 /* Enable to load json file as an object. */ 
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "client/*"
   ],
   "exclude": [
     "node_modules"

@@ -2,7 +2,6 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import { Routes } from './api/routes';
 // @ts-ignore
-import fileUpload from "express-fileupload"
 class App {
   public app: Application;
   public routePrv: Routes = new Routes();
@@ -24,7 +23,6 @@ class App {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(express.static("public"));
-    this.app.use(fileUpload()); // Don't forget this line!
   }
 }
   

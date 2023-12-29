@@ -48,7 +48,7 @@ class ManagePBSService implements IManagePBSService {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
                 `INSERT INTO data_PBS (Name, Description, Type, ParentID)
-                VALUES('${iManagePBSStructure.name}', '${iManagePBSStructure.description}','${iManagePBSStructure.type}' ,${iManagePBSStructure.parentID ? `${iManagePBSStructure.parentID}` : 0});
+                VALUES('${iManagePBSStructure.name}', '${iManagePBSStructure.description}','${iManagePBSStructure.type}' ,${iManagePBSStructure.parentID >= 0 ? `${iManagePBSStructure.parentID}` : 0});
                 `
             );
             return {
@@ -67,7 +67,7 @@ class ManagePBSService implements IManagePBSService {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(
                 `UPDATE data_PBS
-                SET Name='${iManagePBSStructure.name}', Description='${iManagePBSStructure.description}',Type='${iManagePBSStructure.type}', ParentID=${iManagePBSStructure.parentID ? `${iManagePBSStructure.parentID}` : null}
+                SET Name='${iManagePBSStructure.name}', Description='${iManagePBSStructure.description}',Type='${iManagePBSStructure.type}', ParentID=${iManagePBSStructure.parentID >=0 ? `${iManagePBSStructure.parentID}` : null}
                 WHERE ID=${id};
                 `
             );

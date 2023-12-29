@@ -2,8 +2,12 @@ import Bull from "bull";
 import generateExcelProcess from "../processes/generateExcel.process";
 const generateExcelQueue = new Bull("generateExcel", {
     redis: {
-        port: 6379,
-        host: 'localhost',
+        port: 6380,
+        host: 'tgmtr2.redis.cache.windows.net',
+        password:"PXOXd4TDlaCy1xjqz7Sy7aYa5FVxUQn7DAzCaItrBUM=",
+        tls:{
+            enableTrace:true
+        }
     },
 })
 

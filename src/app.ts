@@ -29,26 +29,8 @@ class App {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(express.static("public"));
-    this.app.use(session({
-      name: "tgmtr",
-      secret: 'He&j3#(new22',
-      cookie: {
-        maxAge: 8 * 60 * 60 * 1000
-      },
-      saveUninitialized: false
-    }))
-    // authentication routes
-    this.app.get('/signin', authProvider.signIn);
-    this.app.get('/signout', authProvider.signOut);
-    this.app.get('/loginresponse', authProvider.handleRedirect);
-    this.app.get('/userdetails', authProvider.isAuthenticated, authProvider.getToken, async (request:any, response, next) => {
-      // @ts-ignore
-      response.send({
-        name: request.session.account.name,
-        username: request.session.account.username,
-      });
-      next();
-    });
+    
+    
   }
 }
 

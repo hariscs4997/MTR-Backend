@@ -32,6 +32,7 @@ export class Routes {
       response.send({
         name: request.session.account.name,
         username: request.session.account.username,
+        role:request.session.account.idTokenClaims.roles[0]
       });
       next();
     });

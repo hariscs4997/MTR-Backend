@@ -14,7 +14,6 @@ const generateExcelQueue = new Bull("generateExcel", {
 
 generateExcelQueue.process(generateExcelProcess)
     generateExcelQueue.on('completed', (job, result) => {
-        console.log(result)
         job.finished();
     })
 
@@ -32,7 +31,6 @@ async function getExcelJobStatus(jobId: string) {
         }
 
         const state = await job.getState();
-        console.log(job)
         return state;
     } catch (error) {
         console.error('Error getting job status:', error);

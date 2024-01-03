@@ -14,7 +14,6 @@ const generateCsvQueue = new Bull("generateCsv", {
 
 generateCsvQueue.process(generateCsvProcess)
     generateCsvQueue.on('completed', (job, result) => {
-        console.log('job completed')
         job.finished();
     })
 
@@ -32,7 +31,6 @@ async function getCsvJobStatus(jobId: string) {
         }
 
         const state = await job.getState();
-        console.log(job)
         return state;
     } catch (error) {
         console.error('Error getting job status:', error);

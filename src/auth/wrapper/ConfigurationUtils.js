@@ -54,7 +54,6 @@ ConfigurationUtils.getMsalConfiguration = (config, cachePlugin = null) => {
         system: {
             loggerOptions: {
                 loggerCallback(loglevel, message, containsPii) {
-                    console.log(message);
                 },
                 piiLoggingEnabled: false,
                 logLevel: msal_node_1.LogLevel.Verbose,

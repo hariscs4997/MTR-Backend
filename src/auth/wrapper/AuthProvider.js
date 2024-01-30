@@ -157,7 +157,6 @@ class AuthProvider {
                             try {
                                 // exchange auth code for tokens
                                 const tokenResponse = yield this.msalClient.acquireTokenByCode(req.session.tokenRequest);
-                                console.log("\nResponse: \n:", tokenResponse);
                                 // assign session variables
                                 req.session.account = tokenResponse.account;
                                 req.session.isAuthenticated = true;
@@ -175,13 +174,13 @@ class AuthProvider {
                             req.session.tokenRequest.code = req.query.code;
                             try {
                                 const tokenResponse = yield this.msalClient.acquireTokenByCode(req.session.tokenRequest);
-                                console.log("\nResponse: \n:", tokenResponse);
+                                // console.log("\nResponse: \n:", tokenResponse);
                                 req.session[resourceName].accessToken = tokenResponse.accessToken;
                                 req.session.save();
                                 return res.status(200).redirect(state.path);
                             }
                             catch (error) {
-                                console.log(error);
+                                // console.log(error);
                                 next(error);
                             }
                             break;
@@ -192,12 +191,12 @@ class AuthProvider {
                     }
                 }
                 else {
-                    console.log(Constants_1.ErrorMessages.NONCE_MISMATCH);
+                    // console.log(Constants_1.ErrorMessages.NONCE_MISMATCH);
                     res.status(401).send(Constants_1.ErrorMessages.NOT_PERMITTED);
                 }
             }
             else {
-                console.log(Constants_1.ErrorMessages.STATE_NOT_FOUND);
+                // console.log(Constants_1.ErrorMessages.STATE_NOT_FOUND);
                 res.status(401).send(Constants_1.ErrorMessages.NOT_PERMITTED);
             }
         });
@@ -226,11 +225,11 @@ class AuthProvider {
                 try {
                     // acquire token silently to be used in resource call
                     const tokenResponse = yield this.msalClient.acquireTokenSilent(silentRequest);
-                    console.log("\nSuccessful silent token acquisition:\n Response: \n:", tokenResponse);
+                    // console.log("\nSuccessful silent token acquisition:\n Response: \n:", tokenResponse);
                     // In B2C scenarios, sometimes an access token is returned empty.
                     // In that case, we will acquire token interactively instead.
                     if (tokenResponse.accessToken.length === 0) {
-                        console.log(Constants_1.ErrorMessages.TOKEN_NOT_FOUND);
+                        // console.log(Constants_1.ErrorMessages.TOKEN_NOT_FOUND);
                         throw new msal_common_1.InteractionRequiredAuthError(Constants_1.ErrorMessages.INTERACTION_REQUIRED);
                     }
                     req.session[resourceName].accessToken = tokenResponse.accessToken;
@@ -311,7 +310,7 @@ class AuthProvider {
                 res.redirect(response);
             }
             catch (error) {
-                console.log(JSON.stringify(error));
+                // console.log(JSON.stringify(error));
                 next(error);
             }
         });

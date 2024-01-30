@@ -10,6 +10,8 @@ import mtrTableData from './mtrTableData';
 import manageClassification from "./manageClassification"
 import managePBS from './managePBS';
 import gpt from './gpt';
+import scriptManagement from './scriptManagement';
+import databaseManagement from './databaseMangement';
 const router = express.Router();
 router.use('/cfg', cfg);
 router.use('/analytics', analytics);
@@ -22,4 +24,6 @@ router.use("/mtr", mtrTableData)
 router.use('/manage-classification', manageClassification)
 router.use('/manage-pbs',managePBS)
 router.use('/gpt',gpt)
+router.use('/script-management',scriptManagement)
+router.use('/database-management',databaseManagement)
 export default router;

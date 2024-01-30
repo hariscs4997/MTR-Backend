@@ -8,7 +8,6 @@ import JSZip from "jszip"
 const sqlService: any = sql
 
 const generateExcelProcess = async (job: Job) => {
-    // console.log(job.data)
     const { size, title, fileName } = job.data;
     const viewName = await getViewName(title);
     let totalRecords: any = await getTotalRecords(viewName);

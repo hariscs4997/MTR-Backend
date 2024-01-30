@@ -27,16 +27,16 @@ export class Routes {
     app.get('/signin', authProvider.signIn);
     app.get('/signout', authProvider.signOut);
     app.get('/loginresponse', authProvider.handleRedirect);
-    app.get('/userdetails', authProvider.isAuthenticated, authProvider.getToken, async (request:any, response, next) => {
-      // @ts-ignore
-      response.send({
-        name: request.session.account.name,
-        username: request.session.account.username,
-        role:request.session.account.idTokenClaims.roles[0]
-      });
-      next();
-    });
-    app.use('/api',authProvider.isAuthenticated, api);
+    // app.get('/userdetails', authProvider.isAuthenticated, authProvider.getToken, async (request:any, response, next) => {
+    //   // @ts-ignore
+    //   response.send({
+    //     name: request.session.account.name,
+    //     username: request.session.account.username,
+    //     role:request.session.account.idTokenClaims.roles[0]
+    //   });
+    //   next();
+    // });
+    app.use('/api', api);
     const clientPath = path.normalize(path.join(process.cwd(), './client'));
     app.use(express.static(clientPath));
     app.use('(/*)?', async (req, res, next) => {

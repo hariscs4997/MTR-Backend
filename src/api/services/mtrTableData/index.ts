@@ -23,7 +23,6 @@ class MTRTableDataService implements IMTRTableDataService {
             let query = "";
             if (Object.keys(iMTRTableDataItem.filters).length) {
                 Object.keys(iMTRTableDataItem.filters).forEach((item: any, index) => {
-                    console.log(item)
                     if (index === Object.keys(iMTRTableDataItem.filters).length - 1) {
                         query +=
                             "[".concat(item).concat("]") +

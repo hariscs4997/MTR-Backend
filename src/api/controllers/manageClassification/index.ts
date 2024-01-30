@@ -29,7 +29,6 @@ export class ManageClassificationController {
     public static async updateClassificationData(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await ManageClassificationService.updateClassificationData({ className: req.body.className, parentID: req.body.parentID, viewName:req.body.viewName }, req.body.id);
-            console.log(data)
             res.send(data).status(200);
         } catch (e) {
             throw e;
@@ -38,7 +37,6 @@ export class ManageClassificationController {
     public static async deleteClassificationData(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await ManageClassificationService.deleteClassificationData(parseInt(req.params.id));
-            console.log(data)
             res.send(data).status(200);
         } catch (e) {
             throw e;

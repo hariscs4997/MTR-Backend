@@ -42,7 +42,6 @@ class ManageClassificationService implements IManageClassificationService {
         }
     }
     public async addClassificationData(iManageClassificationItem: IManageClassificationItem) {
-        console.log(iManageClassificationItem)
         try {
             const pool = await sqlService.connect(config);
             const products = await pool.request().query(

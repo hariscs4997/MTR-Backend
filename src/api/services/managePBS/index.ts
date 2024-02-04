@@ -1,4 +1,4 @@
-import { config } from "../../../config/dbconfig"
+import { sequelize } from "../../../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 
 const sqlService: any = sql
@@ -20,32 +20,32 @@ interface IManagePBSService {
 class ManagePBSService implements IManagePBSService {
     public async getAllPBSData() {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `Select * FROM [data_PBS]`
             );
-            return products.recordsets[0]
+            return products[0]
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async getAllPBSTypeData() {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `Select * FROM [cfg_PBSSchema]`
             );
-            return products.recordsets[0].map((item:any)  => ({Name:item.Name}));
+            return products[0].map((item:any)  => ({Name:item.Name}));
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async addPBSData(iManagePBSStructure: IManagePBSStructure) {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `INSERT INTO data_PBS (Name, Description, Type, ParentID)
                 VALUES('${iManagePBSStructure.name}', '${iManagePBSStructure.description}','${iManagePBSStructure.type}' ,${iManagePBSStructure.parentID >= 0 ? `${iManagePBSStructure.parentID}` : 0});
                 `
@@ -58,13 +58,13 @@ class ManagePBSService implements IManagePBSService {
             }
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async updatePBSData(iManagePBSStructure: IManagePBSStructure, id: number) {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `UPDATE data_PBS
                 SET Name='${iManagePBSStructure.name}', Description='${iManagePBSStructure.description}',Type='${iManagePBSStructure.type}', ParentID=${iManagePBSStructure.parentID >=0 ? `${iManagePBSStructure.parentID}` : null}
                 WHERE ID=${id};
@@ -78,13 +78,13 @@ class ManagePBSService implements IManagePBSService {
             }
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async deletePBSData(id: number) {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `WITH RecursiveCTE AS (
                     SELECT ID
                     FROM data_PBS
@@ -101,7 +101,7 @@ class ManagePBSService implements IManagePBSService {
             return "Deleted Successfully"
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
 }

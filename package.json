@@ -9,7 +9,7 @@
     "dev": "npm run build && NODE_ENV=development node build/server.js",
     "stage": "npm run build && NODE_ENV=staging node build/server.js",
     "copy-files": "cp -r ./src/auth/ ./build/auth/ && cp -r ./public/ ./build/public/",
-    "fix-mssql":"rm -rf node_modules/msnodesqlv8/ && npm i msnodesqlv8"
+    "fix-mssql": "rm -rf node_modules/msnodesqlv8/ && npm i msnodesqlv8"
   },
   "author": "",
   "license": "ISC",
@@ -28,17 +28,19 @@
     "express-session": "^1.17.3",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
-    "msnodesqlv8": "^4.1.1",
-    "mssql": "^10.0.1",
+    "msnodesqlv8": "^4.1.2",
+    "mssql": "^10.0.2",
     "multer": "^1.4.5-lts.1",
     "node-gyp": "^10.0.1",
     "save-as": "^0.1.8",
+    "sequelize": "^6.35.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "yarn": "^1.22.21"
   },
   "devDependencies": {
     "@types/express": "4.17.8",
-    "@types/multer": "^1.4.11"
+    "@types/multer": "^1.4.11",
+    "nodemon": "^3.0.3"
   }
 }

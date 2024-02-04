@@ -1,4 +1,4 @@
-import { config } from "../../../config/dbconfig"
+import { sequelize } from "../../../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 
 const sqlService: any = sql
@@ -18,7 +18,7 @@ class MTRTableDataService implements IMTRTableDataService {
     public async getTableData(iMTRTableDataItem: IMTRTableDataItem) {
         try {
             const viewName = await getViewName(iMTRTableDataItem.name)
-            const pool = await sqlService.connect(config);
+            ;
             const noOfRows = iMTRTableDataItem.end - iMTRTableDataItem.start;
             let query = "";
             if (Object.keys(iMTRTableDataItem.filters).length) {
@@ -37,7 +37,7 @@ class MTRTableDataService implements IMTRTableDataService {
                     }
                 });
             }
-            const products = await pool.request().query(
+            const products = await sequelize.query(
                 `SELECT *
               FROM [dbo].[${viewName}] 
               ${query.length > 0 && "WHERE " + query}
@@ -51,29 +51,27 @@ class MTRTableDataService implements IMTRTableDataService {
               OFFSET ${iMTRTableDataItem.start} ROWS
               FETCH NEXT ${noOfRows} ROWS ONLY`
             );
-            let totalRecords = await pool
-                .request()
-                .query(`SELECT COUNT([Tag No]) FROM [dbo].[${viewName}]`);
+            let totalRecords = await sequelize.query(`SELECT COUNT([Tag No]) FROM [dbo].[${viewName}]`);
 
             return {
-                records: products.recordsets[0],
+                records: products[0],
                 totalRecords: totalRecords.recordset[0][''],
             };
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 }
 const getViewName = async (displayName: string) => {
     try {
-        const pool = await sqlService.connect(config);
-        const ViewName = await pool.request().query(`
+        ;
+        const ViewName = await sequelize.query(`
         SELECT *
           FROM [dbo].[cfg_Views]
           WHERE DisplayName = '${displayName}'`);
-        return ViewName.recordsets[0][0].ViewName;
+        return ViewName[0][0].ViewName;
     } catch (error) {
-        console.log(error);
+        //console.log(error);
     }
 }
 

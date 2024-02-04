@@ -1,4 +1,4 @@
-import { config } from "../../../config/dbconfig"
+import { sequelize } from "../../../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 
 const sqlService: any = sql
@@ -12,8 +12,8 @@ interface IReportsService {
 class ReportsService implements IReportsService {
     public async getHandOverReportData() {
         try {
-            const pool = await sqlService.connect(config);
-            const data = await pool.request().query(
+            ;
+            const data = await sequelize.query(
                 `SELECT [Tool], [Name]
               FROM [dbo].[cfg_HandoverReports]
               
@@ -21,7 +21,7 @@ class ReportsService implements IReportsService {
               FROM [dbo].[cfg_HandoverReports]
         `
             );
-            return data.recordsets;
+            return data;
         } catch (error) {
             console.log(error);
         }
@@ -45,9 +45,9 @@ class ReportsService implements IReportsService {
 }
 const getData = async (query: string) => {
     try {
-        const pool = await sqlService.connect(config);
-        const data = await pool.request().query(`${query}`);
-        return data.recordsets[0];
+        ;
+        const data = await sequelize.query(`${query}`);
+        return data[0];
     } catch (error) {
         console.log(error);
     }

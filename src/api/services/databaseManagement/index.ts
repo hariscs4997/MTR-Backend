@@ -1,7 +1,4 @@
-import { config } from "../../../config/dbconfig"
-import sql from "mssql/msnodesqlv8";
-
-const sqlService: any = sql
+import { sequelize } from "../../../config/dbconfig";
 
 interface IDatabaseManagement {
     getAllDBTables(): any;
@@ -13,44 +10,41 @@ interface IDatabaseManagement {
 class DatabaseManagementService implements IDatabaseManagement {
     public async getAllDBTables() {
         try {
-            const pool = await sqlService.connect(config);
-            const data = await pool.request().query(
+            const data = await sequelize.query(
                 `SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'`
             );
-            return data.recordsets[0].map((item: any) => ({ table: item.table_name }));
+           
+            return data.map((item: any) => ({ table: item.table_name }));
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
     public async getTableRecords(tableName: string) {
         try {
-            const pool = await sqlService.connect(config);
-            const result = await pool.request().query(`SELECT * FROM ${tableName}`);
-            const getDataTypes = await pool.request().query(`SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${tableName}'`)
-            const columns = result.recordset?.length ? Object.keys(result.recordset[0]) : []
-            const dataTypes =  getDataTypes.recordset
-            const records = result.recordset;
+            const result = await sequelize.query(`SELECT * FROM ${tableName}`);
+            const getDataTypes = await sequelize.query(`SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${tableName}'`)
+            const columns = result?.length ? Object.keys(result[0]) : []
+            const dataTypes =  getDataTypes
+            const records = result;
             return { columns, records, tableName, dataTypes  }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
     public async deleteTableRecord(query: string) {
         try {
-            const pool = await sqlService.connect(config);
-            const result = await pool.request().query(query);
+            const result = await sequelize.query(query);
             return result.recordset
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
     public async updateTableRecord(query: string) {
         try {
-            const pool = await sqlService.connect(config);
-            const result = await pool.request().query(query);
+            const result = await sequelize.query(query);
             return result.recordset
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 }

@@ -21,7 +21,7 @@ export class Routes {
       cookie: {
         maxAge: 8 * 60 * 60 * 1000
       },
-      saveUninitialized: false
+      saveUninitialized: false,
     }))
     // authentication routes
     app.get('/signin', authProvider.signIn);

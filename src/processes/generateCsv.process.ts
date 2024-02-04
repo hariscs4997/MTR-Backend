@@ -1,5 +1,5 @@
 import { Job } from "bull";
-import { config } from "../config/dbconfig";
+import { sequelize } from "../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 import JSZip from "jszip"
 import { createObjectCsvWriter as createCsvWriter } from 'csv-writer';
@@ -49,22 +49,20 @@ const generateCsvProcess = async (job: Job) => {
 }
 const getViewName = async (title: string) => {
     try {
-        const pool = await sqlService.connect(config);
-        const ViewName = await pool.request().query(`
+        ;
+        const ViewName = await sequelize.query(`
         SELECT *
           FROM [dbo].[cfg_Views]
           WHERE DisplayName = '${title}'`);
-        return ViewName.recordsets[0][0].ViewName;
+        return ViewName[0][0].ViewName;
     } catch (error) {
         console.log(error);
     }
 }
 const getTotalRecords = async (viewName: string) => {
     try {
-        const pool = await sqlService.connect(config);
-        const totalRecords = await pool
-            .request()
-            .query(`SELECT COUNT(*) FROM [dbo].[${viewName}]`);
+        ;
+        const totalRecords =await sequelize.query(`SELECT COUNT(*) FROM [dbo].[${viewName}]`);
         return Object.values(totalRecords.recordset[0])[0];
     } catch (error) {
         console.error(error);
@@ -72,14 +70,14 @@ const getTotalRecords = async (viewName: string) => {
 }
 async function getAllData(viewName: string, start: number, end: number) {
     try {
-        const pool = await sqlService.connect(config);
-        const products = await pool.request().query(
+        ;
+        const products = await sequelize.query(
             `SELECT *
             FROM [dbo].[${viewName}] ORDER BY [Tag No]  
             OFFSET ${start} ROWS
             FETCH NEXT ${end} ROWS ONLY`
         );
-        return products.recordsets[0];
+        return products[0];
     } catch (error) {
         console.log(error);
     }

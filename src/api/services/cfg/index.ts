@@ -1,5 +1,7 @@
-import { config } from "../../../config/dbconfig"
+
+import { sequelize } from "../../../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
+
 
 const sqlService: any = sql
 
@@ -11,8 +13,8 @@ interface ICfgService {
 class CfgService implements ICfgService {
     public async getSidebarData() {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `WITH my_cte1 AS (
               select [Group] 
               from   [dbo].[cfg_Views]
@@ -37,8 +39,8 @@ class CfgService implements ICfgService {
     }
     public async getClassesData() {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `Select * FROM [cfg_ClassificationLevels]`
             );
             return products.recordset

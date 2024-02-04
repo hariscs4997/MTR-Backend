@@ -1,6 +1,6 @@
 import { Job } from "bull";
 import ExcelJS from 'exceljs';
-import { config } from "../config/dbconfig";
+import { sequelize } from "../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 import fs from "fs"
 import JSZip from "jszip"
@@ -91,22 +91,20 @@ const generateExcelProcess = async (job: Job) => {
 }
 const getViewName = async (title: string) => {
     try {
-        const pool = await sqlService.connect(config);
-        const ViewName = await pool.request().query(`
+        ;
+        const ViewName = await sequelize.query(`
         SELECT *
           FROM [dbo].[cfg_Views]
           WHERE DisplayName = '${title}'`);
-        return ViewName.recordsets[0][0].ViewName;
+        return ViewName[0][0].ViewName;
     } catch (error) {
         console.log(error);
     }
 }
 const getTotalRecords = async (viewName: string) => {
     try {
-        const pool = await sqlService.connect(config);
-        const totalRecords = await pool
-            .request()
-            .query(`SELECT COUNT(*) FROM [dbo].[${viewName}]`);
+        ;
+        const totalRecords = await sequelize.query(`SELECT COUNT(*) FROM [dbo].[${viewName}]`);
         return Object.values(totalRecords.recordset[0])[0];
     } catch (error) {
         console.error(error);
@@ -114,12 +112,12 @@ const getTotalRecords = async (viewName: string) => {
 }
 const getAllData = async (viewName: string) => {
     try {
-        const pool = await sqlService.connect(config);
-        const products = await pool.request().query(
+        ;
+        const products = await sequelize.query(
             `SELECT * FROM [dbo].[${viewName}]`
         );
 
-        return products.recordsets[0];
+        return products[0];
     } catch (error) {
         console.log(error);
     }

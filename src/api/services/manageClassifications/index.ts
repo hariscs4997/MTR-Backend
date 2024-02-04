@@ -1,4 +1,4 @@
-import { config } from "../../../config/dbconfig"
+import { sequelize } from "../../../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 
 const sqlService: any = sql
@@ -19,32 +19,32 @@ interface IManageClassificationService {
 class ManageClassificationService implements IManageClassificationService {
     public async getAllClassificationData() {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `Select * FROM [cfg_ClassificationLevels]`
             );
-            return products.recordsets[0]
+            return products[0]
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async getAllViewNamesData() {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `Select * FROM [cfg_Views]`
             );
-            return products.recordsets[0].map((item:any)  => ({ViewName:item.ViewName, DisplayName: item.DisplayName}));
+            return products[0].map((item:any)  => ({ViewName:item.ViewName, DisplayName: item.DisplayName}));
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async addClassificationData(iManageClassificationItem: IManageClassificationItem) {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `INSERT INTO cfg_ClassificationLevels (ClassName, ViewName, ParentID, Icon, TageTypeCode)
                 VALUES('${iManageClassificationItem.className}', '${iManageClassificationItem.viewName}', ${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null} , null, null);
                 `
@@ -58,13 +58,13 @@ class ManageClassificationService implements IManageClassificationService {
             }
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async updateClassificationData(iManageClassificationItem: IManageClassificationItem, id: number) {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `UPDATE cfg_ClassificationLevels
                 SET ClassName='${iManageClassificationItem.className}', ViewName='${iManageClassificationItem.viewName}', ParentID=${iManageClassificationItem.parentID ? `${iManageClassificationItem.parentID}` : null}, Icon=null, TageTypeCode=null
                 WHERE ID=${id};
@@ -79,13 +79,13 @@ class ManageClassificationService implements IManageClassificationService {
             }
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
     public async deleteClassificationData(id: number) {
         try {
-            const pool = await sqlService.connect(config);
-            const products = await pool.request().query(
+            ;
+            const products = await sequelize.query(
                 `WITH RecursiveCTE AS (
                     SELECT ID
                     FROM cfg_ClassificationLevels
@@ -102,7 +102,7 @@ class ManageClassificationService implements IManageClassificationService {
             return "Deleted Successfully"
         }
         catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
 }

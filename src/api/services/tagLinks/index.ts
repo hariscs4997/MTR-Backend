@@ -1,4 +1,4 @@
-import { config } from "../../../config/dbconfig"
+import { sequelize } from "../../../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 
 const sqlService: any = sql
@@ -10,8 +10,8 @@ interface ICfgService {
 class CfgService implements ICfgService {
     public async getTagLinks(key: string) {
         try {
-            const pool = await sqlService.connect(config);
-            const data = await pool.request().query(
+            ;
+            const data = await sequelize.query(
                 `SELECT [URL]
                 ,[Title]
             FROM [dbo].[data_Links] where [Tag Key] = '${key}'`

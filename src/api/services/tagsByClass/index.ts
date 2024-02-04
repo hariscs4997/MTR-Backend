@@ -1,4 +1,4 @@
-import { config } from "../../../config/dbconfig"
+import { sequelize } from "../../../config/dbconfig";
 import sql from "mssql/msnodesqlv8";
 
 const sqlService: any = sql
@@ -12,50 +12,44 @@ interface ITagsByClassService {
 class TagsByClassService implements ITagsByClassService {
     public async getTagClassData(item: string, viewName:string) {
         try {
-            const pool = await sqlService.connect(config);
-            const tableData = await pool
-                .request()
-                .query(
+            ;
+            const tableData = await sequelize.query(
                     `select * from ${viewName} where [Tag Class] = '${item}'`
                 );
 
-            return tableData.recordsets[0];
+            return tableData[0];
         } catch (error) {
             console.log(error);
         }
     }
     public async getTagSubClassData(item: string) {
         try {
-            const pool = await sqlService.connect(config);
-            const data = await pool.request().query(
+            ;
+            const data = await sequelize.query(
                 `SELECT [ViewName]
           FROM [dbo].[cfg_ClassLevel2]
           Where [ClassName] = '${item}'`
             );
-            const tableData = await pool
-                .request()
-                .query(
-                    `select * from ${data.recordsets[0][0].ViewName} where [Tag SubClass] = '${item}'`
+            const tableData = await sequelize.query(
+                    `select * from ${data[0][0].ViewName} where [Tag SubClass] = '${item}'`
                 );
-            return tableData.recordsets[0];
+            return tableData[0];
         } catch (error) {
             console.log(error);
         }
     }
     public async getTagLastClassData(item: string) {
         try {
-            const pool = await sqlService.connect(config);
-            const data = await pool.request().query(
+            ;
+            const data = await sequelize.query(
                 `SELECT [ViewName]
           FROM [dbo].[cfg_ClassLevel3]
           Where [ClassName] = '${item}'`
             );
-            const tableData = await pool
-                .request()
-                .query(
-                    `select * from ${data.recordsets[0][0].ViewName} where [Tag Type] = '${item}'`
+            const tableData = await sequelize.query(
+                    `select * from ${data[0][0].ViewName} where [Tag Type] = '${item}'`
                 );
-            return tableData.recordsets[0];
+            return tableData[0];
         } catch (error) {
             console.log(error);
         }
